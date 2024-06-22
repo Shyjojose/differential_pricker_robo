@@ -1,0 +1,32 @@
+arm_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - Revolute_4
+    - Revolute_7
+  gains:
+    Revolute_4:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    Revolute_7:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+grab_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - Slider_8
+    - Slider_9
+  gains:
+    Slider_8:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    Slider_9:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1

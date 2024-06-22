@@ -1,0 +1,60 @@
+<launch>
+ <param name="robot_description"
+         command="$(find xacro)/xacro --inorder '$(find finaldesign_description)/urdf/finaldesign.urdf'"/>
+  <!-- Launch the robot_state_publisher -->
+<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+        output="screen">
+    <param name="publish_frequency" value="5.0" />
+</node>
+ <!-- Joint State Publisher -->
+<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"
+        output="screen">
+    <param name="rate" value="5.0" />
+</node>
+  <!-- Static Transform Publisher for Laser -->
+<node pkg="tf" type="static_transform_publisher" name="laser_broadcaster"
+      args="0.022341174865850022 -0.011310030365267815 0.005986531564266734 0 0 0 base_link laser 100"/>
+
+  <!-- Map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find finaldesign_description)/maps/map.yaml" />
+
+  <!-- AMCL -->
+  <node name="amcl" pkg="amcl" type="amcl">
+    <param name="odom_frame_id" value="odom"/>
+    <param name="base_frame_id" value="base_link"/>
+    <param name="global_frame_id" value="map"/>
+    <param name="laser_topic" value="/scan"/>
+    <!-- Set AMCL parameters as needed -->
+      <!-- Adjust these parameters based on your robot's configuration and testing -->
+    <param name="min_particles" value="30"/>
+    <param name="max_particles" value="3000"/>
+    <param name="initial_pose_x" value="0"/>
+    <param name="initial_pose_y" value="0"/>
+    <param name="initial_pose_a" value="0"/>
+    <param name="gui_publish_rate" value="10.0"/>
+    <param name="update_min_a" value="0.4"/>
+    <param name="update_min_d" value="0.2"/>
+    <param name="resample_interval" value="1"/>
+
+    <!-- Topics laser -->
+    <remap from="laser_topic" to="/scan"/>
+    <param name="laser_z_hit" value="0.6"/>
+    <param name="laser_z_rand" value="0.4"/>
+    <param name="laser_sigma_hit" value="0.2"/>
+    <param name="laser_lambda_short" value="0.1"/>
+
+  </node>
+
+  <!-- Move Base -->
+  <node name="move_base" pkg="move_base" type="move_base" respawn="false">
+   <param name="base_global_planner" value="navfn/NavfnROS"/>
+    <rosparam file="$(find finaldesign_description)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find finaldesign_description)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find finaldesign_description)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find finaldesign_description)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find finaldesign_description)/config/base_local_planner_params.yaml" command="load" />
+  </node>
+
+  <!-- RViz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find finaldesign_description)/rviz/navigation.rviz" required="true" />
+</launch>

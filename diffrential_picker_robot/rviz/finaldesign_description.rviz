@@ -1,0 +1,22 @@
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz/Grid
+      Name: Grid
+    - Class: rviz/Map
+      Name: Map
+      Topic: /map
+    - Class: rviz/RobotModel
+      Name: RobotModel
+    - Class: rviz/LaserScan
+      Name: LaserScan
+      Topic: /scan
+      Size (m): 0.1
+    - Class: rviz/TF
+      Name: TF
+    - Class: rviz/Odometry
+      Name: Odometry
+      Topic: /odom
+    - Class: rviz/Path
+      Name: Path
+      Topic: /move_base/NavfnROS/plan

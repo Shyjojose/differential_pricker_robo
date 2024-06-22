@@ -1,0 +1,4 @@
+<launch>
+    <arg name="model" default="$(find finaldesign_description)/urdf/finaldesign.xacro"/>
+    <node name="keyboard_control" pkg="finaldesign_description" type="keyboard_control.py" output="screen"/>
+</launch>

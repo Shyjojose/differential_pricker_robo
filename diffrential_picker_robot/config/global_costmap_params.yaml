@@ -1,0 +1,15 @@
+global_costmap:
+  global_frame: map
+  robot_base_frame: base_link
+  update_frequency: 5
+  publish_frequency: 5
+  transform_tolerance: 0.50 # 0.25 seconds of latency, if greater than this, planner will stop
+  static_map: true
+  rolling_window: false # Follow robot while navigating
+  width: 200
+  height: 200
+  origin_x: -100
+  origin_y: -100
+  resolution: 0.05
+  inflation_radius: 0.2
+  # Add other global costmap parameters here
